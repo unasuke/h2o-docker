@@ -1,0 +1,20 @@
+FROM buildpack-deps:<%= build_distribution %> as builder
+
+RUN apt-get update && apt-get install -y --no-install-recommends cmake bison ruby
+WORKDIR /etc
+RUN git clone --recurse-submodules https://github.com/h2o/h2o.git --depth 1 --branch <%= branch %>
+
+WORKDIR /etc/h2o
+RUN mkdir -p build
+WORKDIR /etc/h2o/build
+RUN cmake -DWITH_MRUBY=on ..
+RUN make
+RUN make install
+
+FROM <%= execute_distribution %>
+<% if %w(bionic focal buster).include?(version) -%>
+RUN apt-get update && apt-get install -y --no-install-recommends libssl-dev && rm -rf /var/lib/apt/lists/*
+<% end -%>
+USER nobody
+COPY --from=builder /usr/local/bin/h2o /usr/local/bin/h2o
+COPY --from=builder /usr/local/share/h2o/ /usr/local/share/h2o/

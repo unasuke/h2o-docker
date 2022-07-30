@@ -1,0 +1,127 @@
+name: build
+on:
+  push:
+    branches:
+      - "*"
+jobs:
+  build-release:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - v2.2.0
+          - v2.2.1
+          - v2.2.2
+          - v2.2.3
+          - v2.2.4
+          - v2.2.5
+          - v2.3.0-beta1
+          - v2.2.6
+          - v2.3.0-beta2
+        distribution:
+          - bionic
+          - focal
+          # - jammy NOTE: current releaed h2o's are not supported build with ruby 3
+          - buster
+          - bullseye
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0
+      - uses: docker/setup-buildx-action@v1
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/metadata-action@v4
+        id: meta
+        with:
+          images: ghcr.io/unasuke/h2o-docker
+          tags: |
+            type=raw,value=${{ matrix.distribution }}-${{ matrix.version }}
+      - run: ./gen_dockerfile.rb '${{ matrix.distribution }}' '${{ matrix.version }}'
+      - uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          file: Dockerfile.${{ matrix.distribution }}_${{ matrix.version }}
+          tags: ${{ steps.meta.outputs.tags }}
+          cache-from: type=registry,ref=ghcr.io/unasuke/h2o-docker:buildcache
+          cache-to: type=registry,ref=ghcr.io/unasuke/h2o-docker:buildcache,mode=max
+  build-master:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        distribution:
+          - bionic
+          - focal
+          - jammy
+          - buster
+          - bullseye
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0
+      - uses: docker/setup-buildx-action@v1
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/metadata-action@v4
+        id: meta
+        with:
+          images: ghcr.io/unasuke/h2o-docker
+          tags: |
+            type=raw,value=${{ matrix.distribution }}-master
+      - run: ./gen_dockerfile.rb '${{ matrix.distribution }}' master
+      - uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          no-cache: true
+          file: Dockerfile.${{ matrix.distribution }}_master
+          tags: ${{ steps.meta.outputs.tags }}
+  test:
+    needs:
+      - build-release
+      - build-master
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - v2.2.0
+          - v2.2.1
+          - v2.2.2
+          - v2.2.3
+          - v2.2.4
+          - v2.2.5
+          - v2.3.0-beta1
+          - v2.2.6
+          - v2.3.0-beta2
+          - master
+        distribution:
+          - bionic
+          - focal
+          - buster
+          - bullseye
+        include:
+          - version: master
+            distribution: jammy
+    steps:
+      - uses: actions/checkout@v3
+      - uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: |
+          docker run --rm --volume $(pwd)/test:/etc --publish 8080:8080 --stop-timeout 15 'ghcr.io/unasuke/h2o-docker:${{ matrix.distribution }}-${{ matrix.version }}' h2o -c /etc/h2o.conf &
+          sleep 5
+          curl  http://localhost:8080 | grep 'Hello world'
