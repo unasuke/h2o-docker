@@ -49,8 +49,6 @@ jobs:
           push: true
           file: Dockerfile.${{ matrix.distribution }}_${{ matrix.version }}
           tags: ${{ steps.meta.outputs.tags }}
-          cache-from: type=registry,ref=ghcr.io/unasuke/h2o-docker:buildcache
-          cache-to: type=registry,ref=ghcr.io/unasuke/h2o-docker:buildcache,mode=max
   build-master:
     runs-on: ubuntu-latest
     strategy:
