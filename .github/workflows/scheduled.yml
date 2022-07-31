@@ -50,7 +50,7 @@ jobs:
         distribution:
           - bionic
           - focal
-          - jamny
+          - jammy
           - buster
           - bullseye
     steps:
