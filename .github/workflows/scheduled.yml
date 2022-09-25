@@ -62,4 +62,5 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - run: |
           docker run --detach --volume $(pwd)/test:/etc --publish 8080:8080 --stop-timeout 15 'ghcr.io/unasuke/h2o-docker:${{ matrix.distribution }}-master' h2o -c /etc/h2o.conf
+          sleep 3
           curl  http://localhost:8080 | grep 'Hello world'
