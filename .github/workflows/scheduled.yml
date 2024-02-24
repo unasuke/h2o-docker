@@ -1,4 +1,3 @@
-
 name: scheduled build
 on:
   schedule:
@@ -17,24 +16,24 @@ jobs:
           - bullseye
           - bookworm
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.0
-      - uses: docker/setup-buildx-action@v1
-      - uses: docker/login-action@v1
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: docker/metadata-action@v4
+      - uses: docker/metadata-action@v5
         id: meta
         with:
           images: ghcr.io/unasuke/h2o-docker
           tags: |
             type=raw,value=${{ matrix.distribution }}-master
       - run: ./gen_dockerfile.rb '${{ matrix.distribution }}' master
-      - uses: docker/build-push-action@v3
+      - uses: docker/build-push-action@v5
         with:
           context: .
           push: true
@@ -56,8 +55,8 @@ jobs:
           - bullseye
           - bookworm
     steps:
-      - uses: actions/checkout@v3
-      - uses: docker/login-action@v1
+      - uses: actions/checkout@v4
+      - uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
