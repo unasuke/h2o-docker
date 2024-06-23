@@ -45,7 +45,7 @@ jobs:
           tags: |
             type=raw,value=${{ matrix.distribution }}-${{ matrix.version }}
       - run: ./gen_dockerfile.rb '${{ matrix.distribution }}' '${{ matrix.version }}'
-      - uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v6
         with:
           context: .
           push: true
@@ -82,7 +82,7 @@ jobs:
           tags: |
             type=raw,value=${{ matrix.distribution }}-master
       - run: ./gen_dockerfile.rb '${{ matrix.distribution }}' master
-      - uses: docker/build-push-action@v5
+      - uses: docker/build-push-action@v6
         with:
           context: .
           push: true
