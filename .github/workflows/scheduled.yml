@@ -12,6 +12,7 @@ jobs:
           - bionic
           - focal
           - jammy
+          - noble
           - buster
           - bullseye
           - bookworm
@@ -51,6 +52,7 @@ jobs:
           - bionic
           - focal
           - jammy
+          - noble
           - buster
           - bullseye
           - bookworm
