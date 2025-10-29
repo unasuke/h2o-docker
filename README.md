@@ -15,7 +15,6 @@ $ docker run -it --rm -p 8080:8080 --volume foo:bar ghcr.io/unasuke/h2o-docker:j
 - focal
 - jammy (only master)
 - noble (only master)
-- buster
 - bullseye
 - bookworm (only master)
 

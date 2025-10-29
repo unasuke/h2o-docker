@@ -24,7 +24,6 @@ jobs:
           - focal
           # - jammy NOTE: current releaed h2o's are not supported build with ruby 3
           # - noble NOTE: openssl v3
-          - buster
           - bullseye
           # - bookworm NOTE: current releaed h2o's are not supported build with ruby 3
     steps:
@@ -63,7 +62,6 @@ jobs:
           - focal
           - jammy
           - noble
-          - buster
           - bullseye
           - bookworm
     steps:
@@ -114,7 +112,6 @@ jobs:
         distribution:
           - bionic
           - focal
-          - buster
           - bullseye
         include:
           - version: master
