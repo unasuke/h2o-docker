@@ -13,7 +13,6 @@ jobs:
           - focal
           - jammy
           - noble
-          - buster
           - bullseye
           - bookworm
           - trixie
@@ -55,7 +54,6 @@ jobs:
           - focal
           - jammy
           - noble
-          - buster
           - bullseye
           - bookworm
           - trixie

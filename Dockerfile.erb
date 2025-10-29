@@ -12,7 +12,7 @@ RUN make
 RUN make install
 
 FROM <%= execute_distribution %>
-<% if %w(bionic focal buster bookworm).include?(version) -%>
+<% if %w(bionic focal bookworm).include?(version) -%>
 RUN apt-get update && apt-get install -y --no-install-recommends libssl-dev && rm -rf /var/lib/apt/lists/*
 <% end -%>
 USER nobody
