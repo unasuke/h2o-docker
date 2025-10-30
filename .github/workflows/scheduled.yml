@@ -17,7 +17,7 @@ jobs:
           - bookworm
           - trixie
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.0
@@ -58,7 +58,7 @@ jobs:
           - bookworm
           - trixie
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: docker/login-action@v3
         with:
           registry: ghcr.io
