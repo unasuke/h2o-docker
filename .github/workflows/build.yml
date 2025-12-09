@@ -27,7 +27,7 @@ jobs:
           - bullseye
           # - bookworm NOTE: current releaed h2o's are not supported build with ruby 3
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.0
@@ -65,7 +65,7 @@ jobs:
           - bullseye
           - bookworm
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.0
@@ -121,7 +121,7 @@ jobs:
           - version: master
             distribution: bookworm
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
       - uses: docker/login-action@v3
         with:
           registry: ghcr.io
