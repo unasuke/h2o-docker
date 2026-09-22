@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 # example
-# ./gen_dockerfile.rb <distro name (bullseye, jammy etc)> <h2o tag (optional, set 'master' if not passed)>
+# ./gen_dockerfile.rb <distro name (bookworm, jammy etc)> <h2o tag (optional, set 'master' if not passed)>
 
 require 'erb'
 require 'yaml'
