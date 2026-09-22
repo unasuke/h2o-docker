@@ -6,6 +6,7 @@ build:
       - jammy  # 22.04
       - noble  # 24.04
       - oracular # 24.10
+      - resolute # 26.04
     debian:
       - bookworm # 12
       - trixie # 13

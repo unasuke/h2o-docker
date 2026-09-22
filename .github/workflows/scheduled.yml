@@ -13,6 +13,7 @@ jobs:
           - focal
           - jammy
           - noble
+          - resolute
           - bookworm
           - trixie
     steps:
@@ -53,6 +54,7 @@ jobs:
           - focal
           - jammy
           - noble
+          - resolute
           - bookworm
           - trixie
     steps:
