@@ -17,17 +17,12 @@ $ docker run -it --rm -p 8080:8080 --volume foo:bar ghcr.io/unasuke/h2o-docker:j
 - noble (only master)
 - resolute (only master)
 - bookworm (only master)
+- trixie (only master)
 
 ### versions
-- v2.2.0
-- v2.2.1
-- v2.2.2
-- v2.2.3
-- v2.2.4
-- v2.2.5
-- v2.3.0-beta1
-- v2.2.6
-- v2.3.0-beta2
 - master
+
+Tagged releases (v2.2.x, v2.3.0-beta1, v2.3.0-beta2) are no longer built. Images
+pushed before are kept on the registry.
 
 see also <https://github.com/unasuke/h2o-docker/pkgs/container/h2o-docker>
